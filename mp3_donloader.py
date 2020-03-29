@@ -1,8 +1,7 @@
 """
 Author: Rashmin Dungrani
 Date:   21-Jan-2020
-Python 3 Linux
-Discription:    This Python Script will Download song from mp3paw website and Downloaded mp3 file is 128kbps
+Discription:    This Python Script can Download song from mp3paw website and Downloaded mp3 file is Store in /home/{username}/Music Directory
 """
 
 
@@ -57,21 +56,24 @@ def song_downlaoder():
 
         print("\nPress 0 if your song is not listed below")
         song_number = input("Choose Song Number : ")
-        if int(song_number) in range(1,6):
-            print("Downloading " + str(firstFiveSongsName[int(song_number)-1]))
-            # Click To Download Button
-            driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div['+str(song_number)+']/div[3]/ul/li[3]/div').click()
-            sleep(2)
-            handles = driver.window_handles
-            driver.switch_to.window(handles[1])
-            sleep(1)
-            driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[2]/div[3]/ul/li[4]').click()
-            print('Start Downloading...')
-            sleep(5)
-        elif song_number == "0":
-            pass
-        else:
-            print("Invalid input")
+        while 1:
+            if int(song_number) in range(1,6):
+                print("Downloading " + str(firstFiveSongsName[int(song_number)-1]))
+                # Click To Download Button
+                driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div['+str(song_number)+']/div[3]/ul/li[3]/div').click()
+                sleep(2)
+                handles = driver.window_handles
+                driver.switch_to.window(handles[1])
+                sleep(1)
+                driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[2]/div[3]/ul/li[4]').click()
+                print('\n\tDownloading Started... Wait')
+                sleep(6)
+                print('\n\tSong Downloaded')
+                break
+            elif song_number == "0":
+                break
+            else:
+                print("Invalid input Try Again...")
 
 try:
     song_downlaoder()
