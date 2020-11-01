@@ -4,16 +4,17 @@ Date:   21-Jan-2020
 Discription:    This Python Script can Download song from mp3paw website and Downloaded mp3 file is Store in /home/{username}/Music Directory
 """
 
+# TODO: https://ytmp3.cc/en13/ Download youtube mp3 and mp4 songs from here with same quiality so Download mp3 file if user gives url then go to this site
 
 from sys import argv
 from time import sleep
-from os import system as os_system
+from os import system as os_system, kill as os_kill, getppid as os_getppid
 import traceback
+import signal
 
-download_path = "/home/jarvis/Music/"
+download_path = "/mnt/Ddisk/Debian10/Music/"
 
 browser = None
-
 def strat_browser():
     from selenium import webdriver
 
@@ -26,6 +27,16 @@ def strat_browser():
     profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "audio/mpeg")
     global browser
     browser = webdriver.Firefox(profile,firefox_options=options)
+
+
+def show_gnome_notification(title_text: str, sub_text: str):
+    ''' got gnome notification '''
+    import gi
+    gi.require_version('Notify', '0.7')
+    from gi.repository.Notify import init as notify_init, Notification
+    notify_init("Instagram Notification")
+    gnome_notification = Notification.new(title_text, sub_text)
+    gnome_notification.show()
     
 def song_downlaoder(songName):
     from selenium.webdriver.support.ui import WebDriverWait
@@ -77,20 +88,21 @@ def song_downlaoder(songName):
             print('😡 only integer valid')
 
     songName = str(firstFiveSongsName[int(song_number)-1])
-    print("\nDownloading " + songName)
     # Click To Download Button
     sleep(0.2)
     browser.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div['+str(song_number)+']/div[3]/ul/li[3]/div').click()
     handles = browser.window_handles
     browser.switch_to.window(handles[1])
-    WebDriverWait(browser, 50).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[2]/div/div[2]/div[3]/ul/li[4]')))
+    # 192 kbps file
+    WebDriverWait(browser, 50).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[2]/div/div[2]/div[3]/ul/li[3]')))
     sleep(0.2)
-    browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[2]/div[3]/ul/li[4]').click()
+    browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[2]/div[3]/ul/li[3]').click()
 
-    mp3_file_name = download_path + songName + '.mp3'
+    songName = songName.replace("'", "").replace('"','').replace(':', '') + '.mp3'
+    mp3_file_name = download_path + songName
+    print('file Name -> ' + mp3_file_name)
     from os.path import exists
     # check download start
-    print(mp3_file_name + '.part from check download start')
     while not exists(mp3_file_name + '.part'):
         sleep(1)
 
@@ -103,11 +115,16 @@ def song_downlaoder(songName):
     browser.close()
     browser.switch_to.window(handles[0])
     browser.get('about:blank')
+
     # wait for file Downloaded
     while exists(mp3_file_name + '.part'):
         sleep(1)
+
     if exists(mp3_file_name):
         print('Download Completed')
+        show_gnome_notification('Song downloaded', songName)
+        sleep(1)
+        os_kill(os_getppid(), signal.SIGHUP)
     else:
         print('Something wrong')
     browser.close()
@@ -127,6 +144,6 @@ except KeyboardInterrupt:
     print('terminated')
 
 except Exception as e:
-    print(e)
+    # print(e)
     print("\n\n*********** ERROR ***********\n")
-    traceback.print_exc()
+    traceback.print_exc(e)
