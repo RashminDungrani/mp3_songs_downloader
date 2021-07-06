@@ -1,0 +1,21 @@
+1625588572277	geckodriver	INFO	Listening on 127.0.0.1:49789
+1625588572940	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/dj/lwbhphy90g56blp068vvyp080000gn/T/rust_mozprofilegmbKcu"
+1625588573844	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /var/folders/dj/lwbhphy90g56blp068vvyp080000gn/T/rust_mozprofilegmbKcu/search.json.mozlz4", (void 0)))
+1625588576212	Marionette	INFO	Listening on port 49801
+1625588576280	Marionette	WARN	TLS certificate errors will be ignored for this session
+1625588580751	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1625589036825	geckodriver	INFO	Listening on 127.0.0.1:50163
+1625589037852	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/dj/lwbhphy90g56blp068vvyp080000gn/T/rust_mozprofileRfC1lR"
+1625589038779	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /var/folders/dj/lwbhphy90g56blp068vvyp080000gn/T/rust_mozprofileRfC1lR/search.json.mozlz4", (void 0)))
+1625589041080	Marionette	INFO	Listening on port 50176
+1625589041173	Marionette	WARN	TLS certificate errors will be ignored for this session
+1625589045578	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+console.log: WebExtensions: reset-default-search: starting.
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
